@@ -1,4 +1,4 @@
-// stack (fifo)
+// stack (lifo)
 
 // example 1
 // const stack = [];
@@ -12,7 +12,7 @@
 
 // example 2
 class Node {
-    constructor(data, prev) {
+    constructor(data, prev, next) {
         this.data = data;
         this.prev = prev;
     }
