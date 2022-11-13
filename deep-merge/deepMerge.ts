@@ -1,6 +1,12 @@
-const isObject = (o: any): boolean => typeof o === 'object' && !Array.isArray(o);
+type DeepValue = string | number | DeepObject | Array<DeepValue>;
 
-const mergeValues = (a: any, b: any): any => {
+interface DeepObject {
+    [key: string]: DeepValue;
+}
+
+const isObject = (o: DeepValue): o is DeepObject => typeof o === 'object' && !Array.isArray(o);
+
+const mergeValues = (a: DeepValue, b: DeepValue): DeepValue => {
     if (isObject(a) && isObject(b)) return deepMerge(a, b);
 
     if (Array.isArray(a) && Array.isArray(b)) return [ ...a, ...b ];
@@ -10,10 +16,10 @@ const mergeValues = (a: any, b: any): any => {
     return b === undefined ? a : b;
 }
 
-export default function deepMerge(source: object, target: object): object {
+export default function deepMerge(source: DeepObject, target: DeepObject): DeepObject {
     const result = {};
 
-    const oKeys = new Set();
+    const oKeys: Set<string> = new Set();
     Object.keys(source).forEach((key) => oKeys.add(key));
     Object.keys(target).forEach((key) => oKeys.add(key));
 
